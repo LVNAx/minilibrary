@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Hapus Buku{% endblock %}
+
+{% block content %}
+<div class="page-head">
+    <div>
+        <h1 class="page-title">Hapus Buku</h1>
+    </div>
+</div>
+
+<div class="confirm">
+    <h2 class="confirm__title">Yakin ingin menghapus buku ini?</h2>
+    <p>Buku <strong>{{ book.title }}</strong> karya {{ book.author }} akan dihapus permanen.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="confirm__actions">
+            <button type="submit" class="btn btn--danger">Ya, Hapus</button>
+            <a href="{% url 'catalog:book_detail' book.id %}" class="btn btn--ghost">Batal</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+<div class="page-head">
+    <div>
+        <h1 class="page-title">Detail Buku - {{ book.title }}</h1>
+        <p class="page-subtitle">Informasi lengkap koleksi</p>
+    </div>
+    <div class="page-actions">
+        <a href="{% url 'catalog:book_list' %}" class="btn btn--ghost">Kembali</a>
+    </div>
+</div>
+
+<div class="detail">
+    <div>
+        {% if book.cover_url %}
+        <img src="{{ book.cover_url }}" alt="Sampul {{ book.title }}" class="detail__cover">
+        {% endif %}
+    </div>
+    <div class="detail__body">
+        <h2 class="detail__title">{{ book.title }}</h2>
+        <span class="badge badge--category">{{ book.get_category_display }}</span>
+
+        <dl class="dl">
+            <dt>Penulis</dt>
+            <dd>{{ book.author }}</dd>
+            <dt>Jumlah halaman</dt>
+            <dd>{{ book.pages }} halaman {% if book.is_thick %} (buku tebal) {% endif %}</dd>
+            <dt>Tanggal terbit</dt>
+            <dd>{{ book.published_at|date:"d F Y" }}</dd>
+            <dt>Status</dt>
+            <dd>
+                {% if book.is_available %}
+                <span class="badge badge--available">Tersedia</span>
+                {% else %}
+                <span class="badge badge--borrowed">Dipinjam</span>
+                {% endif %}
+            </dd>
+            <dt>Sinopsis</dt>
+            <dd>{{ book.synopsis }}</dd>
+        </dl>
+
+        <div class="detail__actions">
+            <a href="{% url 'catalog:book_update' book.id %}" class="btn btn--primary">Ubah</a>
+            <a href="{% url 'catalog:book_delete' book.id %}" class="btn btn--danger">Hapus</a>
+            <a href="{% url 'catalog:book_json_by_id' book.id %}" class="btn btn--danger">JSON</a>
+            <a href="{% url 'catalog:book_xml_by_id' book.id %}" class="btn btn--danger">XML</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

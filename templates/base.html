@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mini Library{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="{% url 'catalog:book_list' %}" class="brand">
+                Mini Library
+            </a>
+            <nav class="site-nav">
+                <a href="{% url 'catalog:book_list' %}">Koleksi</a>
+                <a href="{% url 'catalog:book_create' %}">Tambah Buku</a>
+                <a href="{% url 'catalog:book_json' %}">JSON</a>
+                <a href="{% url 'catalog:book_xml' %}">XML</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% if messages %}
+            {% for message in messages %}
+            <p class="flash">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Mini Library - Perpustakaan Fakultas</p>
+        </div>
+    </footer>
+</body>
+</html>

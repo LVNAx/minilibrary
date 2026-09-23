@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Koleksi Buku{% endblock %}
+{% block content %}
+<div class="page-head">
+    <div>
+        <h1 class="page-title">Koleksi Buku</h1>
+        <p class="page-subtitle">Total {{ books|length }} buku dalam katalog</p>
+    </div>
+    <div class="page-actions">
+        <a href="{% url 'catalog:book_create' %}" class="btn btn--primary">Tambah Buku</a>
+        <a href="{% url 'catalog:book_import' %}" class="btn btn--ghost">Import XML</a>
+        <a href="{% url 'catalog:book_xml_download' %}" class="btn btn--ghost">Download XML</a>
+    </div>
+</div>
+
+{% if books %}
+<div class="grid">
+    {% for book in books %}
+    <article class="card">
+        {% if book.cover_url %}
+        <img src="{{ book.cover_url }}" alt="Sampul {{ book.title }}" class="card__cover">
+        {% endif %}
+        <div class="card__body">
+            <span class="badge badge--category">{{ book.get_category_display }}</span> <!-- Ini itu method bawaan utk category -->
+            <h2 class="card__title">
+                <a href="{% url 'catalog:book_detail' book.id %}">{{ book.title }}</a>
+            </h2>
+
+            <p class="card__meta">{{ book.author }} &middot; {{ book.pages }} halaman</p>
+            <p class="card__text">{{ book.synopsis|truncatewords:15 }}</p>
+            <div class="card__footer">
+                {% if book.is_available %}
+                <span class="badge badge--available">Tersedia</span>
+                {% else %}
+                <span class="badge badge--borrowed">Dipinjam</span>
+                {% endif %}
+                <a href="{% url 'catalog:book_detail' book.id %}" class="btn btn--sm">Detail</a>
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty">
+    <p>Belum ada buku di katalog.</p>
+</div>
+{% endif %}
+{% endblock %}

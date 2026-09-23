@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Import XML{% endblock %}
+
+{% block content %}
+<div class="page-head">
+    <div>
+        <h1 class="page-title">Import Data XML</h1>
+        <p class="page-subtitle">Tempel data XML hasil ekspor dari katalog lain</p>
+    </div>
+</div>
+
+{% if error %}
+<p class="flash flash--error">{{ error }}</p>
+{% endif %}
+
+<form method="post" class="form">
+    {% csrf_token %}
+
+    <div class="form__row">
+        <label class="form__label" for="payload">Data XML</label>
+        <textarea id="payload" name="payload" class="code"></textarea>
+        <p class="form__hint">Salin isi halaman /xml/ lalu tempel di sini.</p>
+    </div>
+
+    <div class="form__actions">
+        <button type="submit" class="btn btn--primary">Import</button>
+        <a href="{% url 'catalog:book_list' %}" class="btn btn--ghost">Batal</a>
+    </div>
+</form>
+{% endblock %}
